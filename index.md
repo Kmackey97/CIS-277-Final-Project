@@ -1,37 +1,14 @@
-## Welcome to GitHub Pages
+## CIS 277: Final App
 
-You can use the [editor on GitHub](https://github.com/Kmackey97/FinalAppProject-Tracker/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+This app (which I have been referring to as _Amnesiac From Space_) is designed for entertainment purposes only. It is loosely based on text-based RPGs that I have read about or played myself. 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Kmackey97/FinalAppProject-Tracker/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Though it isn't by any means as detailed as I would have liked to make it, I managed to program basic functionality and branching decisions into it. I have plans to improve it drastically over break, but some of the following are elements I managed to add in:
+  - A player class system for players to enter name, class, and weapon they receive
+  - An introductory level to explain basic game mechanics, such as choices, combat, and player stats
+  - A rudimentary menu system for the user to access inventory, stats, and more
+  - A few different enemy types and a final tutorial boss at the end of the level
+  - A story that, with time, will hopefully be refined and edited to make sense
+  
+ The premise of the game is fairly simple: The player wakes up in the cockpit of a malfunctioning space ship, unsure of what has happened or who they even are. As they explore their surroundings, they begin to learn the mechanics of the game. As they explore, they begin to get "feelings" telling them what to do, or directing them on their next actions. These feelings are displayed in Capped Letters or brackets []. If the player agrees to do what the voices tell them, their Obedience stat goes up. (This was originally planned to impact later decisions and choices in the game, but I was not able to work it into any early decisions for the tutorial level) If they disagree or openly rebel against these "feelings," their Dissent stat increases.
+ 
+ As the game progresses, the player can unlock different areas to explore and even acquire certain equippable items. Though it is quite basic, it is my hope to improve this game to a multi-level, more complex functionality with survival mechanics and a more natural way of progressing through the game.
