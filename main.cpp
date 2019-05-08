@@ -2,650 +2,532 @@
 #include <string>
 #include <iomanip>
 #include <stdlib.h>
-#include <character.h>
-#include <character.cpp>
-
-#define KEY_LEFT 75
-#define KEY_RIGHT 77
-#define KEY_UP 72
-#define KEY_DOWN 80
-
-#ifdef CHARACTER_H
-#define <character.h>
-#include <character.h>
-#endif
-#include <character.cpp>
-#ifdef CHARACTER_H
-#define <character.cpp>
-#endif
+#include <vector>
+#include <fstream>
+#include <cctype>
+#include <time.h>
 using namespace std;
-//will have to include character.h and character.cpp at some point, probably...
 
-extern string playerName;
-extern string playerLevel;
-extern string health;
-
-//prototypes
-void anyKey(); //asks user to press enter to continue, skips line
-void downOne(); // " " " " doesn't skip line
-void ExitShip(); // starts exit sequence for leaving the ship
-void longClear(); //clears screen by 50 lines
-void shortClear(); // clears half the screen
-void KeyFix(); 
-char LeaveCockpit(char); //starts the sequence leading char out of cockpit
-int sittingNumCount(int); //starts counting sittingNum iterations inside LeaveCockpit function
-void exploreCockpit();
-void clearScreen(); //gives user option to clear screen
-//checkObed();
-void mapPicture();
-void characterFuncs();
-
-//global variable
-int obedience = 0;
-int dissent = 0;
-
-int main() 
+//function to print various messages depending on function
+void PrintMsg(string msg, bool printTop = true, bool printLower = true)
 {
-
-string pName;
-string pLevel;
-string hp;
-
-
-int c = 0;
-while (1)
-{
-  c = 0;
-
-  switch ((c = cin.get()))
+  if(printTop) //prints top of game 'screen'
   {
-    case KEY_UP:
-      cout << "* * * * * * * * * * * * * * * * * *" << endl;
-      cout << setw(30) << "INVENTORY" << setw(30) << endl;
-      cout << "* * * * * * * * * * * * * * * * * *" << endl;
-      //array here?
-      //Inventory
-      break;
-    case KEY_DOWN:
-        cout << "* * * * * * * * * * * * * * * * * *" << endl;
-        cout << setw(20) << "PLAYER INFO" << setw(20) << endl << endl;
-        cout << "Player Name: " << playerName << endl;
-        cout << "Health: " << health << endl;
-        cout << "Level: " << playerLevel << endl;
-        
-        break;
-      //status player info
-    case KEY_RIGHT:
-      cout << "RIGHT" << endl;
-      break;
-    //location
-    case KEY_LEFT: 
-      cout << "LEFT" << endl;
-      break;
-    //actions?
+    cout << " = = = = = = = = = = = = = = = = = = = =" << endl;
+  cout << "|";
   }
-}
-
-//* * * * * * * * * * * * *
-//VARIABLES
-//* * * * * * * * * * * * *
-string dm = "\n"; //delete later if unused
-string filler = " "; //delete later if unused
-char userInput; //used for Y/N choices
-int userSelect; //used for switch choices
-int sittingNum = 0; //used for funcs involving first branch of choices
-//int obedience = 0; //this should be part of a class eventually; used to determine what's heard
-
-
-//Rewrite here??
-
-// * * * * * * * * * * * * * * * * * * * * * * * * *
-//            Begin story/main function
-// * * * * * * * * * * * * * * * * * * * * * * * * *
-mapPicture();
-
-cout << "[Systems failing. . .]" << endl;
-anyKey();
-cout << "[Systems failing. . .]" << endl;
-anyKey();
-cout << "[Syste7z)r#oms fai_l@c^g%&;#0" << endl;
-anyKey();
-cout << "[SYSTEM FAILURE.]" << endl;
-anyKey();
-cout << "[. . .]" << endl;
-anyKey();
-cout << "[Rerouting power]" << endl;
-anyKey();
-cout << "[. . .]" << endl;
-anyKey();
-//shortClear();
-cout << "Systems check? (Y / N)" << endl;
-cin >> userInput;
-cout << endl;
-if (userInput == 'y' || userInput == 'Y')
-{
-   cout << "> PROPULSION: offline" << endl;
-   cin.ignore();
-   downOne();
-   cout << "> SHIELDS: offline" << endl;
-   downOne();
-   cout << "> EMERGENCY BEACON: offline" << endl;
-   downOne();
-   cout << "> MAIN COMPUTER: minimal functionality" << endl;
-   downOne();
-   cout << "> AIR RECYCLING: offline" << endl;
-   downOne();
-   cout << "> LIFE SUPPORT: minimal functionality" << endl;
-   downOne();
-   cout << " ** Recommend immediate evacuation **" << endl;
-   //anyKey();
-}
-else if (userInput == 'n' || userInput == 'N')
-{
-  while (userInput == 'n' || userInput == 'N')
+  else
   {
-    cout << "Systems check? (Y/N)" << endl;
-    cin >> userInput;
-    cout << endl;
-    //repeated function. change?
-    
-if (userInput == 'y' || userInput == 'Y')
-{
-   cout << "> PROPULSION: offline" << endl;
-   cin.ignore();
-   downOne();
-   cout << "> SHIELDS: offline" << endl;
-   downOne();
-   cout << "> EMERGENCY BEACON: offline" << endl;
-   downOne();
-   cout << "> MAIN COMPUTER: minimal functionality" << endl;
-   downOne();
-   cout << "> AIR RECYCLING: offline" << endl;
-   downOne();
-   cout << "> LIFE SUPPORT: minimal functionality" << endl;
-   downOne();
-   cout << "-- END OF REPORT --" << endl;
-   downOne();
-   cout << " ** Recommend immediate evacuation **" << endl;
-   //anyKey();
-}
-//end repeated function
+    cout << "|";
   }
-}
-else
-{
-  cout << "Invalid command. . . " << endl;
-  anyKey();
-  cout << "Systems failing. . ." << endl;
-  anyKey();
-}
-
-//clear screen function here, but only if top placement
-
-cout << endl << "The screen keeps cycling through the same list. You realize \nsitting there staring at it accomplishes nothing, beyond \nmaking your eyes hurt." << endl;
-cout << endl << "You feel like it would be a bad idea to continue sitting." << endl;
-//cout << string(50, '\n');
-anyKey();
-cout << "Clear screen and look around? (Y/N)" << endl;
-cin >> userInput;
-cout << endl;
-
-// * * * * * * * * * * * * * * * * * * * * * * *
-//            FUNCTION ONE: FIRST BRANCH
-//                  OF DECISIONS
-// * * * * * * * * * * * * * * * * * * * * * * *
-LeaveCockpit(userInput);
-// includes functions for leaving cockpit intitially
-
-
-//this should be changed based on previous decision. Maybe a bool check to see what previous decisions were? Look up something.
-cout << "Your ears burn and you find yourself feeling unsettled." << endl;
-anyKey();
-cout << "You need to go." << endl;
-anyKey();
-cout << ">> Evacuate?" << endl;
-cin >> userInput;
-if (userInput == 'y' || userInput == 'Y')
-{
-  // more stuff here
-  cout << "You exit the ship after an undesignated period of time stumbling through hallways." << endl;
-  anyKey();
-
-}
-else if (userInput == 'n' || userInput == 'N')
-{
-  cout << "(You choose to stay.)" << endl;
-  anyKey();
-  cout << "You feel sick. Something tells you that it's time to go." << endl;
-}
-cout << "(You choose to evacuate)" << endl;
-anyKey();
-ExitShip();
-
-//he l p
-
-return 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ---------------------------------------
-// Function to prompt user to exit cockpit, housed in OTHER FUNCTION
-// ---------------------------------------
-void ExitShip()
-{
-char userInput;
-
-while (userInput != 'n' || userInput != 'N') 
-{
-   cout << "(You choose to stay)" << endl;
-   anyKey();
-   cout << "Systems are still failing..." << endl;
-   anyKey();
-   cout << "Evacuate cockpit?" << endl;
-   ExitShip();
-}
-}; 
-
-// ---------------------------------------
-// Function for linebreak
-// ---------------------------------------
-void anyKey()
-{
-   string dm;
-   cout << "- Press enter to continue -" << endl;
-   getchar();
-   return;
-}  
-
-// ---------------------------------------
-// Function for linebreak without an extra endl
-// ---------------------------------------
-void downOne()
-{
-  cout << "- Press enter to continue -";
-  getchar();
-  return;
-}
-  
-// ---------------------------------------
-// Will clear screen
-// ---------------------------------------
-void longClear()
-{
-  for (int i = 0; i < 25; i++)
+  bool front = true;
+  for(int i = msg.length(); i < 40; i++)
   {
-    cout << endl;
-  }
-}
-
-// ---------------------------------------
-// Will clear half the screen
-// ---------------------------------------
-void shortClear()
-{
-  for (int i = 0; i < 5; i++)
-  {
-    cout << endl;
-  }
-}
-
-// ---------------------------------------
-// This function is to start the Leave The
-// Ship sequence. Will be the first major
-// decision the character has to make
-// Will augment obedience and dissent levels
-// ---------------------------------------
-char LeaveCockpit (char userInput)
-{
- int sittingNum; 
-
-if (userInput == 'y' || userInput == 'Y')
-{
-clearScreen();
-}
-else if (userInput == 'n' || 'N')
-{
-  int sittingNum = 0;
-  while (sittingNum >= 0 && sittingNum < 2)
-  {
-    cout << "You feel like it would be a bad idea to continue sitting." << endl;
-    cout << ">> Move? (Y/N)" << endl;
-    sittingNum = sittingNumCount(sittingNum);
-    //code below from sittingNumCount
-    /*cin >> userInput;
-      if (userInput == 'n' || userInput == 'N')
-      {
-        sittingNum++;
-        return sittingNum++;
-      }*/
-  }
-  if (sittingNum >= 2)
-  {
-    sittingNum = 2;
-   while (sittingNum >= 2 && sittingNum < 4)
-   {
-    cout << "Your eyes water from the smoke. Something tells you it's a bad idea to stay here." << endl;
-    cout << ">> Move? (Y/N)" << endl;
-    sittingNum = sittingNumCount(sittingNum);
-    dissent++;
-    cout << "[Dissent has increased by 1]" << endl;
-   }
-  }
-  if (sittingNum >= 4)
-  {
-    sittingNum = 4;
-    while (sittingNum >= 4 && sittingNum < 6)
+    if (front)
     {
-    cout << "Sweat starts to sting your eyes. Something Tells you it's a bad idea to stay." << endl;
-    cout << ">> Move? (Y/N)" << endl;
-    sittingNum = sittingNumCount(sittingNum);
-    dissent++;
-    cout << "Dissent has increased by 1]" << endl;
-    }
-  }
-  if (sittingNum >= 6)
-  {
-    sittingNum = 6;
-    while (sittingNum >= 6 && sittingNum < 8)
-    {
-    cout << "It's a bad idea to stay. [LEAVE.]" << endl;
-    downOne();
-    cout << "(You stand, unbidden.)" << endl << endl;
-    cout << ">> Move? (Y/N)" << endl;
-    sittingNum = sittingNumCount(sittingNum);
-    dissent++;
-    dissent++;
-    cout << "[Dissent has increased by 2]" << endl;
-    }
-  }
-  if (sittingNum == 8)
-  {
-    cout << "[GET OUT.]" << endl;
-    cin.ignore();
-    anyKey();
-    cout << "(You leave the room immediately. Your stomach ache ceases abruptly," << endl; 
-    downOne();
-    cout << "Your eyes stop watering. You head into the corridor outside the cockpit." << endl;
-    obedience++;
-    cout << "[Obedience increased by 1]" << endl;
-    for (int i = 0; i < 2; i++)
-    {
-      obedience++;
-    }
-    anyKey();
-  }
-}
-else 
-{
-  cout << "Invalid selection, please enter a valid choice (Y/N):" << endl;
-  LeaveCockpit(userInput);
-}
-//return userInput;
-return sittingNum;
-}
-
-// ---------------------------------------
-// This function is nested within LeaveShip
-// It is to keep track of the number of sittingNum
-// times the loop has cycled through. Impacts
-// player choices
-// ---------------------------------------
-int sittingNumCount (int sittingNum)
-{
-    char userInput;
-    
-    cin >> userInput;
-      if (userInput == 'y' || userInput == 'Y')
-      {
-        clearScreen();
-      }
-      if (userInput == 'n' || userInput == 'N')
-      {
-        sittingNum++;
-      }
-      return sittingNum;
-}
-
-// ---------------------------------------
-// Function to clear screen and begin exploring
-// cockpit, potentially.
-// ---------------------------------------
-void clearScreen()
-{
-char userInput;
-cout << "(You clear the screen and look around)." << endl;
-anyKey();
-cin.ignore();
-cout << "You're strapped into the command chair of a one-person craft. \n";
-cout << "The ship lists heavily forward, the only thing keeping you strapped \nin to the chair is the safety restraints." << endl;
-anyKey();
-
-cout << "Smoke is heavy in the air. It's becoming difficult to breathe. The protective cockpit canopy in front \nof you is broken. Branches and strips of splintered white wood poke through. It is impassable." << endl;
-downOne();
-
-cout << endl << "You glance down at the remains of your uniform. There are no distinguishing marks left on it." << endl;
-anyKey();
-cout << "> Try to look closer at uniform? (Y/N)" << endl;
-cin >> userInput;
-if (userInput == 'n' || userInput == 'N')
-{
-  cout << "You feel like that's maybe not so important right now." << endl;
-}
-else if (userInput == 'y' || userInput == 'Y')
-{
-  cout << "(You try to look closer at the uniform you're wearing.)" << endl;
-  anyKey();
-  cin.ignore();
-  cout << "You squint, but your eyes are watering from the smoke. It's hard to focus." << endl;
-  cout << "You decide it might be better to look later, if you can find a reflective surface somewhere." << endl;
-}
-else 
-{
-  cout << "Your head swims in confusion at the choices. You decide you'll think about it later." << endl;
-} 
-anyKey();
-cout << endl << "You feel the heat from beyond the cockpit rising." << endl;
-
-//function to explore
-exploreCockpit();
-}
-
-// ---------------------------------------
-// This function should trigger the second
-// branch of decisions the player can make
-// that will impact the short story.
-// Will effect inventory
-// Nested in clearScreen()
-// ---------------------------------------
-void exploreCockpit()
-{
-  longClear();
-  longClear();
-  char userInput;
-  
-  //checkObed();
-  
-  cout << ">> Explore the cockpit? (Y / N)" << endl;
-  cin >> userInput;
-  int userSelect;
-  cout << endl;
-  
-  //player choices begin
-  if (userInput == 'y' || userInput == 'Y')
-  {
-     //+ means an attribute increased, display somehow
-    cout << "+ [Dissent has increased by 1.]" << endl;
-    dissent++;
-	  cout << "You look around, but the cockpit is small. The only points of notice are: \n\n (1) the command chair, (2) a flaming console, and (3) the canopy." << endl;
-	  cout << "(Select 1-3 to explore)" << endl;
-    anyKey();
-  cin >> userSelect;
-  //switch statement here for exploring immediate environ. This part goes here so the player can learn how to select locations.
-  switch(userSelect)
-  {
-    case 1:
-    cout << ">> Look at command chair? (Y/N)" << endl;
-    cin >> userInput;
-    if (userInput == 'y' || userInput == 'Y')
-    {
-      cout << "You just came from there. It's listing forward, now completely unusable. The armrest panels are shattered and flickering dangerously. \n It's even smoking a bit. (You decide not to inspect it closer.)" << endl;
-      //exit function
-    }
-    else if (userInput == 'n' || userInput == 'N')
-    {
-      cout << "(You decide not to inspect it closer.)" << endl;
-      //function here
+      msg = " " + msg;
     }
     else
     {
-      cout << "You are indecisive, but you must select (Y)es or (N)o." << endl;
-      cin >> userInput;
-      // this might not work correctly...
+      msg = msg + " ";
     }
-    break;
-    case 2:
-    cout << ">> Look at the flaming console? ... The one thats on fire?" << endl;
-    cin >> userInput;
-    if (userInput == 'y' || userInput == 'Y')
-    {
-      cout << "The console is on -fire-. You aren't wearing protective gear, beyond your lightly-toasted uniform." << endl;
-      anyKey();
-      cout << "> Leave? (Y/N)" << endl;
-      cin >> userInput;
-      if (userInput == 'y' || userInput == 'Y')
-      {
-        cout << "(You decide to ignore the console.)" << endl;
-        anyKey();
-        cout << "Probably a good idea, since it's on fire." << endl;
-        downOne();
-        cout << "You make your way towards the door." << endl;
-        //where does this send out to?
-      }
-      cout << "It would probably be a bad idea to get closer..." << endl;
-      anyKey();
-      cout << ">> Get closer?" << endl;
-      cin >> userInput;
-      if (userInput == 'y' || userInput == 'Y')
-      {
-        cout << endl;
-	      cout << "Nothing really to see here, except..." << endl;
-	      anyKey();
-	      cout << "Except?" << endl;
-      	anyKey();
-	      cout << "... What's that under the console?" << endl;
-	      anyKey();
-      	cout << ">> Examine? (Y/N)" << endl; 
-        cin >> userInput;
-        	if (userInput == 'y' || userInput == 'Y')
-      	    {
-		          cout << "(You look under the console)" << endl;
-		          anyKey();
-		          cout << "+ You receive PACKED SUPPLIES." << endl;
-		          anyKey();
-		          cout << "You don't remember packing these, but... there are no other life signs aboard." << endl;
-		          anyKey();
-		          cout << "You must have put these here... right?" << endl;
-		          anyKey();
-		          cout << ". . ." << endl;
-		          anyKey();
-		    //class for inventory option
-	    	//press [i] to open inventory
-	    	//some kind of int for inventory save file
-	          }
-	         else if (userInput == 'n' || userInput == 'N')
-	         {
-	           cout << "(You decide to ignore the console.)" << endl;
-	           anyKey();
-	           cout << "Probably a good idea, since it's on fire." << endl;
-	         }
-      }
-      else
-      {
-        cout << "(You decide to ignore the console.)" << endl;
-        anyKey();
-        cout << "Probably a good idea, since it's on fire..." << endl;
-      }
-    }
-    break;
-    case 3: 
-    cout << ">> Inspect the broken canopy?" << endl;
-    cin >> userInput;
-    if (userInput == 'y' || userInput == 'Y')
-    {
-      cout << "Upon closer inspection, it's nothing but glass and pointy trees." << endl;
-      anyKey();
-      cout << "You're not wearing shoes, so you don't feel like it would be a good idea to check that out." << endl;
-      anyKey();
-      cout << "[Good choice.]" << endl;
-      anyKey();
-    }
-    break;
-    default: cout << "(You feel disoriented and confused by the choices presented.)" << endl;
-    anyKey();
-    cout << "(You opt to ignore the options in front of you and focus elsewhere.)" << endl;
+    front = !front; //to set false to true and vice versa to successfully print message
   }
+  cout << msg.c_str(); //character string from message
+
+  if (printLower) //prints bottom of game 'screen'
+  {
+    cout << "|" << endl;
+    cout << " = = = = = = = = = = = = = = = = = = = =";  
+  }
+  else 
+  {
+    cout << "|";
+    cout << endl;
+  }
+}
+
+//prototypes
+string enterWord(string); //future use
+int enterWord (int); //future use
+void wordOutput(); //future use
+string StartGameMenu(string); //""
+void gameMenu(); //Menu for the start of the game
+void guessesLeft8(); //hangman function
+void PrintOkLetters(string); //prints letters used
+bool PrintWordCheckWin (string, string); //prints word as guessed thus far + checks to see if player has won
+void clearScreen(); //will ask if user wants to clear screen
+void printLetters(string, char, char); //prints out letters
+string randomWord(string); //chooses word from words.txt
+void drawNoose(int); //an attempt at drawing a hangman
+void playAgain(); //asks user if they want to play again
+void screenClear(); //clears screen with line breaks
+int attemptsLeft(string, string); //guesses allowed, to work with drawNoose
+
+//global vars
+int WRONG_GUESSES = 8; 
+int count = 0;
+int wrong = 0; //incorrect guesses
+
+int main()
+{
+  srand(time(0));
+  //variables
+  char yesNo; //to hold yes/no binary choices
+  int choice; //to hold switch choices
+    
+  string s;
+  //int guessCount = 0;
+  //int numLetters; //to hold number of letters in a word
+  //string theWord; //to hold user's word choice
+  string wordToGuess; //word from pre-set word file
+  string guesses; //holds the letter user guesses
+  //string used = ""; //letters guessed already
+  bool win = false;
+    //string userGuess; // to hold word guesses from user
+  int tries = 0;
+  gameMenu();
+  wordToGuess = randomWord("words.txt");
+  
+  //drawNoose(8);
+  do
+  {
+   screenClear();
+   //tries=0
+   PrintMsg("HANGMAN");
+   cout << endl;
+   //clearScreen();
+   drawNoose(tries);
+   PrintOkLetters(guesses);
+   PrintMsg("Guess the word!");
+   win = PrintWordCheckWin(wordToGuess, guesses);
+  
+  if (win)
+    break;
+
+  char fromUser;
+  cout << ">";
+  cin >> fromUser;
+  if(guesses.find(fromUser) == string::npos)
+    guesses += fromUser; //will add char from user's guesses to list by checking if it is already in the list or not
+
+  tries = attemptsLeft(wordToGuess, guesses);
+
+  } while(tries < 10);
+  cout << endl;
+
+  //************************************************
+  //To include at a later time w/ user-entered words
+  //************************************************
+
+  /*wordToGuess = randomWord("words.txt");
+  theWord = enterWord(theWord);
+  numLetters = enterWord(count);
+  cout << "Your word has been saved! Begin game?" << endl << endl;
+  StartGameMenu(theWord);
+*/
+
+ cout << endl;
+  
+if (win)
+{
+  cout << " = = = = = = = = = = = = = = = = = = = =" << endl;
+  PrintMsg("YOU WON!");
+  //cout << " = = = = = = = = = = = = = = = = = = = =" << endl;
+  playAgain();
 }
 else
-{ //this is where the skip would stop
-   cout << "You smell the ship burning." << endl;
-   anyKey();
-   cout << ">> Evacuate? (Y/N)" << endl;
-   ExitShip();
+{
+  cout << " = = = = = = = = = = = = = = = = = = = =" << endl;
+     cout << setw(40) << "GAME OVER!" << endl;
+      cout << " = = = = = = = = = = = = = = = = = = = =" << endl << endl;
+    playAgain();
 }
+getchar();
+
 }
 
-//checkObed()
-//{
+
+// * * * * * * * * * * * * * * * * * * * *
+//                FUNCTIONS
+// * * * * * * * * * * * * * * * * * * * *
+
+/*void guessesLeft8()
+{
+  char guesses;
+  cout << " = = = = = = = = = = = = = = = = = = = = " << endl;
+  cout << "|" << setw(40) << "|" << endl;
+  cout << "|" << setw(15) << "Guesses Left: " << (WRONG_GUESSES - wrong) << setw(17) << "+----+" << setw(7) << "|" << endl;
+  cout << "|" << setw(33) << "|    |" << setw(7) << "|" << endl;
+  cout << "|" << setw(33) << "|" << setw(7) << "|" << endl;
+  cout << "|" << setw(33) << "|" << setw(7) << "|" << endl;
+  cout << "|" << setw(33) << "|" << setw(7) << "|" << endl;
+  cout << "|" << setw(33) << "|" << setw(7) << "|" << endl;
+  cout << "|" << setw(37) << "=========" << setw(3) << "|" << endl;
+  cout << "|" << setw(40) << "|" << endl;
+  cout << " = = = = = = = = = = = = = = = = = = = = " << endl;
+  cout << "Word: ";
+  wordOutput();
   
-//}
-
-//undeclared function
-void insideTheShip ()
+}*/
+  
+string enterWord(string theWord)
 {
-  //this needs to be grandfathered into the older function
-  cout << "You open the door of the cockpit. Something ";
-  if (obedience >= 2)
+  //function to ask the user to enter the word they would like to use
+  cout << "Please type a word to use and press Enter: " << endl;
+  getline(cin, theWord); //should hopefully be just one word
+  //theWord = toupper(theWord); //make uppercase since secret word in uppercase
+  for (int i = 0; theWord[i]; i++)
   {
-    cout << "Tells ";
+    count++;
   }
-  else if (obedience < 2)
-  {
-    cout << "tells ";
-  }
-  cout << "you that you've been here before. \nYou aren't sure what to think." << endl;
-  anyKey();
-  cout << "The ship is still burning. That same ";
-  if (obedience >= 2)
-  {
-    cout << "Feeling ";
-  }
-  else if (obedience < 2)
-  {
-    cout << "feeling ";
-  }
-  cout << "you keep having seems to urge you to leave. However, \nyou can make out doors on either side of the corridor that might \nhold supplies." << endl;
-
-  cout << ">> Investigate?" << endl;
-  //map function
+  return theWord;
 }
 
-void mapPicture()
+int enterWord(int count)
 {
-  cout << "====================" << endl;
-  cout << "|" << setw(30) << "|" << endl;
+  string theWord;
+  //function to ask the user to enter the word they would like to use
+  cout << "Please confirm word and press Enter: " << endl;
+  getline(cin, theWord);
+  
+  cout << endl;
+  for (int i = 0; theWord[i]; i++)
+  {
+    count++;
+  }
+  return count;
 }
 
+//function for future use (provides blank spaces for user-entered words)
+void wordOutput ()
+{
+    int c = count;
+  do
+  {
+    cout << "_ ";
+    c--;
+  } while (c > 0);
+  cout << endl;
+}
+
+void screenClear()
+{
+   for (int n = 0; n < 50; n++)
+      cout << endl;
+}
+
+void clearScreen()
+{
+  char yesNo;
+  
+  cout << "Would you like to clear the screen and start the game? (y/n)" << endl;
+  cin >> yesNo;
+  cout << endl;
+  if (yesNo == 'y' || yesNo == 'Y')
+    {
+     for (int n = 0; n < 50; n++)
+      cout << endl;
+    }
+  else if (yesNo == 'n' || yesNo == 'N')
+  {
+    cout << "Are you sure? If you do not clear the screen, the other player will be able to see your chosen word..." << endl;
+    cout << "Clear screen? (y/n)" << endl;
+    cin >> yesNo;
+    if (yesNo == 'y' || yesNo == 'Y')
+    {
+     for (int n = 0; n < 50; n++)
+      cout << endl;
+    }
+    else if (yesNo == 'n' || yesNo == 'N')
+    {
+      cout << "(Starting game. . .)" << endl;
+    }
+  }
+  else 
+  {
+    cout << "Invalid input... Please enter yes or no..." << endl;
+    clearScreen();
+  }
+  cout << endl;
+  }
+  
+  /*void StartGameMenu()
+  {
+    string userWord = theWord;
+    int choice;
+    char yesNo;
+    cout << "| * * * || * * * * * || * * * * * || * * * |" << endl;
+    cout << "| " << setw(20) << "1. Exit Program" << setw(15) << "2. Start Game" << setw(7) << "|" << endl;
+    cout << "|" << setw(32) << "3. Enter Different Word" << setw(11) << "|" << endl;
+    cout << "| * * * || * * * * * || * * * * * || * * * |" << endl << endl;
+
+  cin >> choice;
+  switch (choice)
+  {
+    case 1: 
+      cout << "Are you sure? (y/n)" << endl;
+      cin >> yesNo;
+      if (yesNo == 'y')
+      {
+        cout << "Exiting program . . .";
+        exit(0);
+      }
+      else if (yesNo == 'n')
+      {
+        cout << endl << "Returning to previous menu. . ." << endl << endl;
+        StartGameMenu(theWord);
+      }
+      else
+      cout << "Invalid entry. Please type 'y' or 'n' and press Enter/Return. Returning you to previous menu. . . " << endl;
+      StartGameMenu(theWord);
+      break;
+      case 2:
+        cout << "Starting your Game. One moment please. . ." << endl << endl;
+        clearScreen();
+        break;
+      case 3:
+        cout << endl << "Your current word is: " << userWord << "." << endl;
+        cout << "Would you like to choose a different word? (y/n)" << endl;
+        cin >> yesNo;
+        if (yesNo == 'y')
+        {
+          enterWord(theWord);
+        }
+        else if (yesNo == 'n')
+        {
+          cout << endl << "If you are happy with your word, please select '2' from the previous menu." << endl;
+          cout << "Returning to previous menu. . ." << endl << endl;
+          StartGameMenu(theWord);
+        }
+        else
+        {
+          StartGameMenu(theWord);
+        }
+        break;
+        default: 
+        cout << "An error has occurred! Exit program and try again." << endl;
+        exit(0);
+        break;
+  }
+  }*/
+
+//pyramids
+void PrintOkLetters(string taken)
+{
+  PrintMsg("Available Letters");
+  cout << endl;
+  printLetters(taken, 'A', 'M');
+  cout << endl;
+  printLetters(taken, 'N', 'Z');
+}
+
+//checks to see if what's been entered is in the string chosen and checks for win bool
+bool PrintWordCheckWin (string word, string guessed)
+{
+  bool won = true;
+  string c;
+  for (int i = 0; i < word.length(); i++)
+  {
+    if(guessed.find(word[i]) == string::npos)
+    {
+      won = false;
+      c += "_ ";
+    }
+    else
+    {
+      c += word[i];
+      c += " ";
+    }
+  }
+  PrintMsg(c, false);
+  return won;
+}
+//random word chooser
+string randomWord(string path)
+{
+  int lineCount = 0;
+  string word;
+  //vector to hold words
+  vector<string> words;
+  ifstream reader(path);
+  if (reader.is_open())
+  {
+    while (getline(reader, word))
+    words.push_back(word);
+
+    int randomLine = rand() % words.size();
+
+    word = words.at(randomLine);
+  }
+  return word;
+}
+
+int attemptsLeft(string word, string guessed)
+{
+  int wrong = 0;
+  for (int i = 0; i < guessed.length(); i++)
+  {
+    if(word.find(guessed[i]) == string::npos)
+        wrong++;
+      return wrong;
+  }
+return wrong;
+}
+
+void drawNoose(int guessCount = 0)
+{
+  if (guessCount >= 1)
+    PrintMsg(" | ", false, false);
+  else
+    PrintMsg("", false, false);
+
+  if (guessCount >= 2)
+    PrintMsg(" | ", false, false);
+  else
+    PrintMsg("", false, false);
+    
+  if (guessCount >= 3)
+    PrintMsg(" O ", false, false);
+  else
+    PrintMsg("", false, false);
+
+  if (guessCount == 4)
+    PrintMsg(" | ", false, false);
+
+  if (guessCount == 5)
+    PrintMsg("/| ", false, false);
+ 
+  if (guessCount >= 6)
+    PrintMsg("/|\\", false, false);
+  else
+    PrintMsg("", false, false);
+
+  if (guessCount == 7)
+    PrintMsg("/", false, false);
+  
+  if (guessCount >= 8)
+    PrintMsg("/ \\", false, false);
+  else
+    PrintMsg("", false, false);
+  //else
+    //PrintMsg("", false, false)     
+}
+
+void playAgain()
+{
+  char yesNo;
+
+  cout << "> Would you like to play again? (y/n)" << endl;
+  cin >> yesNo;
+  if (yesNo == 'y' || yesNo == 'Y')
+  {
+    cout << "Returning to main menu!" << endl;
+    main(); //idk if this will work
+  }
+  else if (yesNo == 'n' || yesNo == 'N')
+  {
+    cout << "Thanks for playing!" << endl;
+    cout << "Exiting program. . ." << endl;
+    exit(0);
+  }
+  else
+  {
+    cout << "Invalid input! Please enter 'Y' for yes or 'N' for no..." << endl;
+    playAgain();
+  }
+}
+
+void printLetters(string input, char from, char to)
+{
+  string s;
+  for(char i = from; i <= to; i++)
+  {
+    //ascii characters to loop through
+    if (input.find(i) == string::npos)
+      {
+        s += i;
+        s += "  ";
+      }
+    else
+      s += "  ";
+  PrintMsg(s, false, false);
+}
+}
+
+void gameMenu()
+{
+   int menuChoice;
+char choiceYN;
+  while (menuChoice > 0)
+  {
+    cout << setw(76) << "* * * | * * * * * | * * * * * | * * * * * | * * * * * | * * * * * | * * *" << endl;
+cout << setw(5) << " * " << setw(72) << " * " << endl;
+cout << setw(5) << " * " << setw(39) << " Welcome! " << setw(33) << " * " << endl;
+cout << setw(5) << " * " << setw(72) << " * " << endl;
+cout << setw(5) << " * " << setw(62) << "To get started, choose an option from the menu (0-4): " << setw(10) << " * " << endl;
+cout << setw(5) << " * " << setw(72) << " * " << endl;
+cout << setw(5) << " * " << setw(31) << "(1) New Game" << setw(20) << "(2) Quit Program" << setw(21) << " * " << endl;
+cout << setw(5) << " * " << setw(38) << "(3) About" << setw(23) << setw(34) << " * " << endl;
+//cout << setw(5) << " * " << setw(30) << "5.) Codex" << setw(22) << "6.) Player Info" << setw(20) << " * " << endl;
+//cout << setw(5) << " * " << setw(40) << "7.) Levelling" << setw(32) << " * " << endl;
+cout << setw(5) << " * " << setw(72) << " * " << endl;
+cout << setw(5) << " * " << setw(72) << " * " << endl;
+cout << setw(76) << "* * * | * * * * * | * * * * * | * * * * * | * * * * * | * * * * * | * * *" << endl;
+cin >> menuChoice;
+cout << endl << endl << endl;
+switch (menuChoice)
+{
+case 1:
+cout << setw(74) << "* * | * * * * * | * * * * * | * * * * * | * * * * * | * * * * * | * *" << endl;
+cout << setw(7) << " * " << setw(40) << " | NEW GAME | " << setw(28) << " * " << endl;
+cout << setw(74) << "* * | * * * * * | * * * * * | * * * * * | * * * * * | * * * * * | * *" << endl << endl;
+//cout << " * " << setw(76) << " * " << endl;
+//cout << " * " << setw(75) << " * " << endl;
+cout <</* " * " << */ setw(57) << " > Would you like to start a new game? ( Y / N )" << endl;
+cin >> choiceYN;
+cout << endl;
+if (choiceYN == 'Y' || choiceYN == 'y')
+{
+//FUNCTION FOR NEW GAME START HERE 
+return;
+}
+else if (choiceYN == 'n' || choiceYN == 'N')
+{
+cout << "Returning to Main Menu. . ." << endl;
+cout << string(50, '\n');
+//startUpMenu();
+}
+break;
+case 2:
+cout << setw(73) << "* | * * * * * | * * * * | * * * * * * * | * * * * * | * * * * * | *" << endl;
+cout << setw(7) << " *" << setw(41) << "  | QUIT  PROGRAM | " << setw(26) << " * " << endl;
+cout << setw(74) << " * | * * * * * | * * * * | * * * * * * * | * * * * * | * * * * * | * " << endl << endl;
+cout << setw(57) << "> Would you like to quit the program? ( Y / N )" << endl;
+cin >> choiceYN;
+cout << endl;
+if (choiceYN == 'Y' || choiceYN == 'y')
+{
+cout << "Exiting program. . ." << endl;
+exit(0);
+}
+else if (choiceYN == 'n' || choiceYN == 'N')
+{
+cout << "Returning to Main Menu. . ." << endl;
+cout << string(50, '\n');
+//startUpMenu();
+}
+break;
+case 3:
+cout << setw(73) << "* | * * * * * | * * * * * | * * * | * * * * * | * * * * * | *" << endl;
+cout << setw(13) << " *" << setw(35) << "  | ABOUT | " << setw(26) << " * " << endl;
+cout << setw(74) << " * | * * * * * | * * * * * | * * * | * * * * * | * * * * * | * " << endl << endl;
+cout << "This is a fairly basic hangman game with a few pre-programmed words." << endl;
+cout << "To start, return to the main menu and select New Game! Then, enter \nan UPPERCASE letter to guess. The two Word Pyramids are the letters \nyou can choose from. Once you've guessed a letter, it will disappear \nfrom the pyramid! Try to guess in as few choices as possible." << endl << endl;
+break;
+default: cout << "Invalid selection! Returning to menu..." << endl;
+gameMenu();
+break;
+}
+  }
+}
