@@ -1,14 +1,10 @@
 ## CIS 277: Final App
 
-This app (which I have been referring to as _Amnesiac From Space_) is designed for entertainment purposes only. It is loosely based on text-based RPGs that I have read about or played myself. 
+This app is a basic functioning version of Hangman, which allows the user to play against the computer with a list of pre-programmed words found in a text file. It has a functioning menu, complete with an About section, an option to start a New Game, and an Exit function. I hope to continue working on it over the summer break to keep in practice with C++, as well as to polish it as one of my personal projects. 
 
-Though it isn't by any means as detailed as I would have liked to make it, I managed to program basic functionality and branching decisions into it. I have plans to improve it drastically over break, but some of the following are elements I managed to add in:
-  - A player class system for players to enter name, class, and weapon they receive
-  - An introductory level to explain basic game mechanics, such as choices, combat, and player stats
-  - A rudimentary menu system for the user to access inventory, stats, and more
-  - A few different enemy types and a final tutorial boss at the end of the level
-  - A story that, with time, will hopefully be refined and edited to make sense
-  
- The premise of the game is fairly simple: The player wakes up in the cockpit of a malfunctioning space ship, unsure of what has happened or who they even are. As they explore their surroundings, they begin to learn the mechanics of the game. As they explore, they begin to get "feelings" telling them what to do, or directing them on their next actions. These feelings are displayed in Capped Letters or brackets []. If the player agrees to do what the voices tell them, their Obedience stat goes up. (This was originally planned to impact later decisions and choices in the game, but I was not able to work it into any early decisions for the tutorial level) If they disagree or openly rebel against these "feelings," their Dissent stat increases.
- 
- As the game progresses, the player can unlock different areas to explore and even acquire certain equippable items. Though it is quite basic, it is my hope to improve this game to a multi-level, more complex functionality with survival mechanics and a more natural way of progressing through the game.
+Features I hope to add include:
+  - 2-player interactions with a word file for each player, allowing them to compete against one another
+  - A score-keeping system for single player and PvP
+  - a file system to keep track of all time scores
+  - A functioning hangman ASCII pal to keep single players company
+  - More refined game menus to direct the player in all areas of the program
